@@ -3,6 +3,9 @@ sudo apt install maven nginx
 
 # Build Spring App & run in Background
 mvn -DskipTests install
+
+# kill processes on {PORT} and re-run spring app on that port
+kill -9 $(lsof -t -i:8080)
 nohup java -jar target/df-jspring-brewery-0.0.1-SNAPSHOT.jar &
 
 # Creating Self-signed Certificates
