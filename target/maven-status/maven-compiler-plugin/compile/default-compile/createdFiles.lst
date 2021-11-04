@@ -1,0 +1,12 @@
+de\fractiunate\dfjspringbrewery\web\model\v2\BeerStyle.class
+de\fractiunate\dfjspringbrewery\web\model\BeerDto$BeerDtoBuilder.class
+de\fractiunate\dfjspringbrewery\services\v2\BeerServiceV2Impl.class
+de\fractiunate\dfjspringbrewery\web\model\CustomerDto$CustomerDtoBuilder.class
+de\fractiunate\dfjspringbrewery\services\v2\BeerServiceV2.class
+de\fractiunate\dfjspringbrewery\DfJspringBreweryApplication.class
+de\fractiunate\dfjspringbrewery\web\controller\BeerController.class
+de\fractiunate\dfjspringbrewery\services\BeerServiceImpl.class
+de\fractiunate\dfjspringbrewery\services\BeerService.class
+de\fractiunate\dfjspringbrewery\web\controller\v2\BeerControllerV2.class
+de\fractiunate\dfjspringbrewery\web\model\v2\BeerDtoV2.class
+de\fractiunate\dfjspringbrewery\web\model\BeerDto.class
