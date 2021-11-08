@@ -10,9 +10,11 @@ sudo yum install -y apache-maven
 # TODO needs better solution: https://stackoverflow.com/questions/17385794/how-to-get-the-process-id-to-kill-a-nohup-process
 kill -9 $(lsof -t -i:8080)
 
+cd ../
 # Build Spring App & run in Background
 mvn -DskipTests install
 nohup java -jar target/df-jspring-brewery-0.0.1-SNAPSHOT.jar &
+cd bootstrap/
 
 # Creating Self-signed Certificates
 sudo mkdir -p /etc/ssl/private/ && sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj "/C=DE/ST=Bamberg/L=Bamberg/O=Fractiunate/OU=IT/CN=fractiunate.com"
