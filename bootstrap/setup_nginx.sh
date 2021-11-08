@@ -20,8 +20,8 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/privat
 # Config Nginx
 mv /etc/nginx /etc/nginx-backup #Backup Config
 sudo service nginx start
-sudo cp ./nginx_config /etc/nginx/sites-enabled/default
-sudo cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
+sudo mkdir -p /etc/nginx/sites-enabled && cp ./nginx_config /etc/nginx/sites-enabled/default
+sudo mkdir -p /etc/nginx/snippets/ && cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 
 sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
