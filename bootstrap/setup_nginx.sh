@@ -1,5 +1,5 @@
-sudo apt update
-sudo apt install maven nginx
+sudo yum -y update
+sudo yum -y install maven nginx
 
 
 
