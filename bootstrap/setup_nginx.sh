@@ -12,8 +12,8 @@ kill -9 $(lsof -t -i:8080)
 
 cd ../
 # Build Spring App & run in Background
-mvn -DskipTests install
-nohup java -jar target/df-jspring-brewery-0.0.1-SNAPSHOT.jar &
+sudo  mvn -DskipTests install
+sudo nohup java -jar target/df-jspring-brewery-0.0.1-SNAPSHOT.jar &
 cd bootstrap/
 
 # Creating Self-signed Certificates
