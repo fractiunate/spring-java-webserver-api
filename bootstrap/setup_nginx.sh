@@ -15,7 +15,7 @@ mvn -DskipTests install
 nohup java -jar target/df-jspring-brewery-0.0.1-SNAPSHOT.jar &
 
 # Creating Self-signed Certificates
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
+sudo mkdir -p /etc/ssl/private/ && sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj "/C=DE/ST=Bamberg/L=Bamberg/O=Fractiunate/OU=IT/CN=fractiunate.com"
 
 # Config Nginx
 mv /etc/nginx /etc/nginx-backup #Backup Config
@@ -23,9 +23,10 @@ sudo service nginx start
 sudo mkdir -p /etc/nginx/sites-enabled && cp ./nginx_config /etc/nginx/sites-enabled/default
 sudo mkdir -p /etc/nginx/snippets/ && cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 
-sudo ufw allow 'Nginx Full'
-sudo ufw delete allow 'Nginx HTTP'
-sudo ufw status
+# Not Required on Amzn Linux 2
+# sudo ufw allow 'Nginx Full'
+# sudo ufw delete allow 'Nginx HTTP'
+# sudo ufw status
 
 
 sudo service nginx restart
