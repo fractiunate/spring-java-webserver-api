@@ -27,8 +27,8 @@ sudo mkdir -p /etc/ssl/private/ && sudo openssl req -x509 -nodes -days 365 -newk
 # Config Nginx
 sudo mv /etc/nginx /etc/nginx-backup #Backup Config
 sudo service nginx start
-sudo mkdir -p /etc/nginx/sites-enabled && cp ./nginx_config /etc/nginx/sites-enabled/default
-sudo mkdir -p /etc/nginx/snippets/ && cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
+sudo mkdir -p /etc/nginx/sites-enabled && sudo cp ./nginx_config /etc/nginx/sites-enabled/default
+sudo mkdir -p /etc/nginx/snippets/ && sudo cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 
 # Not Required on Amzn Linux 2
 # sudo ufw allow 'Nginx Full'
