@@ -1,7 +1,7 @@
 package de.fractiunate.dfjspringbrewery.web.controller;
 
-import de.fractiunate.dfjspringbrewery.services.CustomerService;
-import de.fractiunate.dfjspringbrewery.services.CustomerService.ResourceNotFoundException;
+import de.fractiunate.dfjspringbrewery.web.services.CustomerService;
+import de.fractiunate.dfjspringbrewery.web.services.CustomerService.ResourceNotFoundException;
 import de.fractiunate.dfjspringbrewery.web.model.CustomerDto;
 import java.util.List;
 import java.util.UUID;

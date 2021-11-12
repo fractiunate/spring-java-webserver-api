@@ -1,6 +1,6 @@
 package de.fractiunate.dfjspringbrewery.web.controller;
 
-import de.fractiunate.dfjspringbrewery.services.SweetsService;
+import de.fractiunate.dfjspringbrewery.web.services.SweetsService;
 import de.fractiunate.dfjspringbrewery.web.model.SweetDto;
 import java.util.List;
 import org.springframework.http.HttpStatus;

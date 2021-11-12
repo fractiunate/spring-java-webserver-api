@@ -1,4 +1,4 @@
-package de.fractiunate.dfjspringbrewery.services.v2;
+package de.fractiunate.dfjspringbrewery.web.services.v2;
 
 import de.fractiunate.dfjspringbrewery.web.model.BeerDto;
 import java.util.UUID;

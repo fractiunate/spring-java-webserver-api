@@ -1,7 +1,5 @@
-package de.fractiunate.dfjspringbrewery.services;
+package de.fractiunate.dfjspringbrewery.web.services;
 
-import de.fractiunate.dfjspringbrewery.web.model.BeerDto;
-import de.fractiunate.dfjspringbrewery.web.model.CustomerDto;
 import de.fractiunate.dfjspringbrewery.web.model.SweetDto;
 import java.util.List;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package de.fractiunate.dfjspringbrewery.services;
+package de.fractiunate.dfjspringbrewery.web.services;
 
 import de.fractiunate.dfjspringbrewery.web.model.BeerDto;
 import java.util.UUID;
@@ -25,7 +25,7 @@ public class BeerServiceImpl implements BeerService {
   }
 
   @Override
-  public void updateBeer(UUID beerId, BeerDto beerDtoV2) {
+  public void updateBeer(UUID beerId, BeerDto beerDto) {
 
   }
 

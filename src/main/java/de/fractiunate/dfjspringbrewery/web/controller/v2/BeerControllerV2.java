@@ -1,6 +1,6 @@
 package de.fractiunate.dfjspringbrewery.web.controller.v2;
 
-import de.fractiunate.dfjspringbrewery.services.v2.BeerServiceV2;
+import de.fractiunate.dfjspringbrewery.web.services.v2.BeerServiceV2;
 import de.fractiunate.dfjspringbrewery.web.model.BeerDto;
 import java.util.UUID;
 import org.springframework.http.HttpHeaders;

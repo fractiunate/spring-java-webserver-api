@@ -1,4 +1,4 @@
-package de.fractiunate.dfjspringbrewery.services;
+package de.fractiunate.dfjspringbrewery.web.services;
 
 import de.fractiunate.dfjspringbrewery.web.model.CustomerDto;
 import java.util.ArrayList;

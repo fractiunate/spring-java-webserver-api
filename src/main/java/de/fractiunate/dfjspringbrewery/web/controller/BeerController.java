@@ -1,8 +1,9 @@
 package de.fractiunate.dfjspringbrewery.web.controller;
 
-import de.fractiunate.dfjspringbrewery.services.BeerService;
 import de.fractiunate.dfjspringbrewery.web.model.BeerDto;
+import de.fractiunate.dfjspringbrewery.web.services.BeerService;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +38,11 @@ public class BeerController {
     return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
   }
 
-//  How can i bind multiple DTOs from one request body with multiple properties? --> Jackson (objectmapper)
+  /**
+   * How can i bind multiple DTOs from one request body with multiple properties? --> Jackson (objectmapper)
+   */
   @PostMapping
-  public ResponseEntity createBeer(@RequestBody BeerDto beer) {
+  public ResponseEntity createBeer(@Valid @RequestBody BeerDto beer) {
     BeerDto savedDto = beerService.saveNewBeer(beer);
 
 //      Create response entity with the Http Header pointing to that resource location
@@ -51,12 +54,14 @@ public class BeerController {
     return new ResponseEntity(headers, HttpStatus.CREATED);
   }
 
-//  204 --> by design no content in reponse body
-//  PUT == IDEMPOTENT, no changes on multiple calls
+
+  /**
+   * 204 --> by design no content in reponse body PUT == IDEMPOTENT, no changes on multiple calls
+   */
   @PutMapping("/{beerId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void handelUpdate(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beerDtoV2) {
-    beerService.updateBeer(beerId, beerDtoV2);
+  public void handelUpdate(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDto beerDto) {
+    beerService.updateBeer(beerId, beerDto);
   }
 
   @DeleteMapping("/{beerId}")
