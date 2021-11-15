@@ -54,7 +54,7 @@ http {
         # Determine whether a request comes from a human, a search crawler or another bot.
         geo $whitelist {
             default 0;
-            include /etc/nginx/google_ips.map;
+            # include /etc/nginx/google_ips.map;
         }
         map $whitelist $limit_by_ip {
             0 $binary_remote_addr;
