@@ -1,4 +1,4 @@
-user       nobody; ##www www;  ## Default: nobody
+user       nobody; ## www www;  ## Default: nobody
 worker_processes  1;  ## Default: 3
 error_log  logs/error.log;
 pid        logs/nginx.pid;

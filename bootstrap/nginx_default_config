@@ -1,0 +1,149 @@
+user www-data;
+##! SET_UP_PROD
+# set equal to cores quantity
+worker_processes auto;
+pid /var/run/nginx.pid;
+events {
+    ##! Custom
+    ## Determines how many clients will be served by each worker process.
+    worker_connections 1024;
+    ##! Custom
+    # If multi_accept is disabled, a worker process will accept one new connection at a time.
+    # Otherwise, a worker process will accept all new connections at a time.
+    # Default: multi_accept off; So we have to turn it on
+    multi_accept on;
+    ##! Custom
+    # If accept_mutex is enabled, worker processes will accept new connections by turn.
+    # Otherwise, all worker processes will be notified about new connections, and if
+    # volume of new connections is low, some of the worker processes may just waste system resources.
+    # Default: accept_mutex off; So we have to turn it on
+    accept_mutex on;
+    ##! Custom
+    # NGINX DOCS: epoll - the effective method, used on Linux 2.6+.
+    # In some distrubutions, like SuSE 8.2, there are patches for supporting epoll by kernel version 2.4.
+    use epoll;
+}
+http {
+        ##! Custom
+        ## Cloudflare IP for real IP detection
+        set_real_ip_from 103.21.244.0/22;
+        set_real_ip_from 103.22.200.0/22;
+        set_real_ip_from 103.31.4.0/22;
+        set_real_ip_from 104.16.0.0/12;
+        set_real_ip_from 108.162.192.0/18;
+        set_real_ip_from 131.0.72.0/22;
+        set_real_ip_from 141.101.64.0/18;
+        set_real_ip_from 162.158.0.0/15;
+        set_real_ip_from 172.64.0.0/13;
+        set_real_ip_from 173.245.48.0/20;
+        set_real_ip_from 188.114.96.0/20;
+        set_real_ip_from 190.93.240.0/20;
+        set_real_ip_from 197.234.240.0/22;
+        set_real_ip_from 198.41.128.0/17;
+        set_real_ip_from 2400:cb00::/32;
+        set_real_ip_from 2405:8100::/32;
+        set_real_ip_from 2405:b500::/32;
+        set_real_ip_from 2606:4700::/32;
+        set_real_ip_from 2803:f800::/32;
+        set_real_ip_from 2c0f:f248::/32;
+        set_real_ip_from 2a06:98c0::/29;
+        real_ip_header CF-Connecting-IP;
+        ##! SET_UP_PROD
+        ##! Custom
+        # Determine what searching engines exclude from malicious bots
+        # Determine whether a request comes from a human, a search crawler or another bot.
+        geo $whitelist {
+            default 0;
+            include /etc/nginx/google_ips.map;
+        }
+        map $whitelist $limit_by_ip {
+            0 $binary_remote_addr;
+            1 "";
+        }
+        #map $http_user_agent $bot_type {
+        #    default '';
+        #    ~*(magereport.com|bing|Yandex|bingbot|Ahrefs) 'friend_bot';
+        #    ~*(http|crawler|spider|bot|search|ForusP|Wget/|Python-urllib|PHPCrawl|bGenius|SemrushBot|Slurp) 'unwanted_bot';
+        #}
+        map $http_user_agent $friend_bot {
+            default '';
+            ~*(magereport.com|bing|Yandex|bingbot|Ahrefs) $binary_remote_addr;
+        }
+        map $http_user_agent $unwanted_bot {
+            default '';
+            ~*(crawler|spider|search|ForusP|Wget/|Python-urllib|PHPCrawl|bGenius|SemrushBot|Slurp) $binary_remote_addr;
+        }
+        ##! Custom
+        # Rate limit bots (that are not search spiders) to one PHP request per second.
+        # An empty '$limit_bots' would disable rate limiting for these requests
+        limit_req_zone $limit_by_ip zone=limit_by_ip:10m rate=2r/s;
+        limit_req_zone $friend_bot zone=friend_bot:10m rate=1r/s;
+        limit_req_zone $unwanted_bot zone=unwanted_bot:10m rate=10r/m;
+        #limit_req_zone $http_x_forwarded_for zone=person:10m rate=120r/m;
+        #limit_req_zone $bot_type zone=friend_bot:10m rate=30r/m;
+        #limit_req_zone $bot_type zone=unwanted_bot:10m rate=10r/m;
+        ##! Custom
+        # Denied ips
+        # include /etc/nginx/denied_ips.map;
+        ##
+        # Basic Settings
+        ##
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+        server_tokens off;
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+        ##
+        # SSL Settings
+        ##
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
+        ##
+        # Logging Settings
+        ##
+        log_format real_ip_access_format '$http_x_forwarded_for - $remote_user [$time_local] '
+                           '"$request" $status $body_bytes_sent '
+                           '"$http_referer" "$http_user_agent" "$gzip_ratio"';
+        access_log /var/log/nginx/access.log real_ip_access_format;
+        error_log  /var/log/nginx/error.log;
+        client_max_body_size 250m;
+        ##
+        # Gzip Settings
+        ##
+        gzip on;
+        gzip_disable "msie6";
+        # gzip_vary on;
+        # gzip_proxied any;
+        # gzip_comp_level 6;
+        # gzip_buffers 16 8k;
+        # gzip_http_version 1.1;
+        # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+        ##
+        # Virtual Host Configs
+        ##
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+}
+#mail {
+#       # See sample authentication script at:
+#       # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+#
+#       # auth_http localhost/auth.php;
+#       # pop3_capabilities "TOP" "USER";
+#       # imap_capabilities "IMAP4rev1" "UIDPLUS";
+#
+#       server {
+#               listen     localhost:110;
+#               protocol   pop3;
+#               proxy      on;
+#       }
+#
+#       server {
+#               listen     localhost:143;
+#               protocol   imap;
+#               proxy      on;
+#       }
+#}
