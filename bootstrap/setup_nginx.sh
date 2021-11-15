@@ -1,5 +1,5 @@
 sudo yum -y update
-sudo amazon-linux-extras install -y java-openjdk11  nginx1.12
+sudo amazon-linux-extras install -y java-openjdk11  nginx1.1
 
 # Install Maven on AMZN-LINUX 2
 sudo wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
@@ -34,9 +34,10 @@ sudo mkdir -p /etc/ssl/private/ && sudo openssl req -x509 -nodes -days 365 -newk
 
 # Config Nginx
 sudo mv /etc/nginx /etc/nginx-backup #Backup Config
-sudo service nginx start
 sudo mkdir -p /etc/nginx/sites-enabled && sudo cp ./nginx_config /etc/nginx/sites-enabled/default
 sudo mkdir -p /etc/nginx/snippets/ && sudo cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
+
+sudo service nginx start
 
 # Not Required on Amzn Linux 2
 # sudo ufw allow 'Nginx Full'
