@@ -35,6 +35,9 @@ sudo mkdir -p /etc/ssl/private/ && sudo openssl req -x509 -nodes -days 365 -newk
 # Config Nginx
 sudo mv /etc/nginx /etc/nginx-backup #Backup Config
 sudo mkdir -p /etc/nginx/sites-enabled && sudo cp ./nginx_config /etc/nginx/sites-enabled/default
+
+sudo cp mime.types /etc/nginx/mime.types
+
 sudo mkdir -p /etc/nginx/snippets/ && sudo cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 
 sudo service nginx start
