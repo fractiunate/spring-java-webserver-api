@@ -2,12 +2,18 @@ package de.fractiunate.dfjspringbrewery.web.controller;
 
 import de.fractiunate.dfjspringbrewery.web.model.BeerDto;
 import de.fractiunate.dfjspringbrewery.web.services.BeerService;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Deprecated
 @RequestMapping("/api/v1/beer")
 @RestController
+@Validated // Method - parameter validation
 public class BeerController {
 
   private final static String HTTP_LOCATION_PREFIX = "/api/v1/beer/";
@@ -42,7 +49,7 @@ public class BeerController {
    * How can i bind multiple DTOs from one request body with multiple properties? --> Jackson (objectmapper)
    */
   @PostMapping
-  public ResponseEntity createBeer(@Valid @RequestBody BeerDto beer) {
+  public ResponseEntity createBeer(@Valid @NotNull @RequestBody BeerDto beer) {
     BeerDto savedDto = beerService.saveNewBeer(beer);
 
 //      Create response entity with the Http Header pointing to that resource location

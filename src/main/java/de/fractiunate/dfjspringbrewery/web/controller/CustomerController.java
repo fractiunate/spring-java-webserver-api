@@ -1,10 +1,11 @@
 package de.fractiunate.dfjspringbrewery.web.controller;
 
+import de.fractiunate.dfjspringbrewery.web.model.CustomerDto;
 import de.fractiunate.dfjspringbrewery.web.services.CustomerService;
 import de.fractiunate.dfjspringbrewery.web.services.CustomerService.ResourceNotFoundException;
-import de.fractiunate.dfjspringbrewery.web.model.CustomerDto;
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class CustomerController {
 
   @GetMapping({"/all"})
   public ResponseEntity<List<CustomerDto>> listCustomers() {
-    return new ResponseEntity<>(customerService.getAllCustomers(),HttpStatus.OK);
+    return new ResponseEntity<>(customerService.getAllCustomers(), HttpStatus.OK);
   }
 
   @GetMapping({"/{customerId}"})
@@ -45,7 +46,7 @@ public class CustomerController {
 
 
   @PostMapping
-  public ResponseEntity registerNewCustomer(@RequestBody CustomerDto customer) {
+  public ResponseEntity registerNewCustomer(@Valid @RequestBody CustomerDto customer) {
     CustomerDto savedCustomer = customerService.registerNewCustomer(customer);
     HttpHeaders header = new HttpHeaders();
     header.add("Location", "/api/v1/customer/" + savedCustomer.getCustomerUuid());
@@ -55,7 +56,7 @@ public class CustomerController {
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @PutMapping("/{customerId}")
-  public void updateCustomerData(@PathVariable UUID customerId, @RequestBody CustomerDto customerDto){
+  public void updateCustomerData(@PathVariable UUID customerId, @Valid @RequestBody CustomerDto customerDto) {
     try {
       customerService.updateCustomerData(customerId, customerDto);
     } catch (ResourceNotFoundException e) {
@@ -65,7 +66,7 @@ public class CustomerController {
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{customerId}")
-  public void deleteCustomer(@PathVariable UUID customerId){
+  public void deleteCustomer(@PathVariable UUID customerId) {
     boolean deleted = customerService.deleteCustomerById(customerId);
   }
 
