@@ -8,7 +8,7 @@ sudo yum install -y apache-maven
 
 # kill processes on {PORT} and re-run spring app on that port
 # TODO needs better solution: https://stackoverflow.com/questions/17385794/how-to-get-the-process-id-to-kill-a-nohup-process
-kill -9 $(lsof -t -i:8080)
+kill -9 $(sudo lsof -t -i:8080)
 
 cd ../
 # Set JAVA 11 for this project
@@ -38,6 +38,7 @@ sudo mv /etc/nginx /etc/nginx-backup #Backup Config
 #sudo mkdir -p /etc/nginx/sites-enabled && sudo cp ./nginx_config /etc/nginx/sites-enabled/default
 
 sudo mkdir -p /usr/local/nginx/logs/
+sudo mkdir -p /usr/share/nginx/logs/
 sudo mkdir -p /etc/nginx/ && sudo cp nginx_config /etc/nginx/nginx.conf
 sudo mkdir -p /etc/nginx/conf/ && sudo cp mime.types /etc/nginx/conf/mime.types
 sudo mkdir -p /etc/nginx/snippets/ && sudo cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
