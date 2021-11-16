@@ -39,7 +39,6 @@ sudo mv /etc/nginx /etc/nginx-backup #Backup Config
 
 sudo cp nginx_config /etc/nginx/nginx.conf
 sudo mkdir -p /etc/nginx/conf/ && sudo cp mime.types /etc/nginx/conf/mime.types
-
 sudo mkdir -p /etc/nginx/snippets/ && sudo cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 
 sudo service nginx start
