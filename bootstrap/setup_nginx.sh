@@ -14,14 +14,14 @@ cd ../
 # Set JAVA 11 for this project
 java_11_path=$(update-alternatives --display java | grep 11 | head -n 1 | xargs)
 
-    # is path already set to Java 11?
-    if [[ ${java_11_path} == "link currently points to"* ]]; then 
-        java_11_path=$(echo "${java_11_path%%* }")
-        echo "INFO: ${java_11_path}"
-    else
-        java_11_path=$(echo "${java_11_path}" | sed -e 's/\s.*$//')
-        sudo alternatives --set java $java_11_path
-    fi;
+# is path already set to Java 11?
+if [[ ${java_11_path} == "link currently points to"* ]]; then 
+    java_11_path=$(echo "${java_11_path%%* }")
+    echo "INFO: ${java_11_path}"
+else
+    java_11_path=$(echo "${java_11_path}" | sed -e 's/\s.*$//')
+    sudo alternatives --set java $java_11_path
+fi;
 
 
 # Build Spring App & run in Background
@@ -39,14 +39,26 @@ sudo mv /etc/nginx /etc/nginx-backup #Backup Config
 
 sudo mkdir -p /usr/local/nginx/logs/
 sudo mkdir -p /usr/share/nginx/logs/
-sudo mkdir -p /etc/nginx/ && sudo cp nginx_config /etc/nginx/nginx.conf
+sudo mkdir -p /etc/nginx/ && sudo cp nginx_default_config /etc/nginx/nginx.conf
 sudo mkdir -p /etc/nginx/conf/ && sudo cp mime.types /etc/nginx/conf/mime.types
 sudo mkdir -p /etc/nginx/snippets/ && sudo cp ./ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 
-sudo service nginx start
+is_nginx_started=$(systemctl status nginx | grep Active)
+if [[ $is_nginx_started == *"inactive"* ] || [ $is_nginx_started == *"failed"* ]]; then 
+    sudo systemctl status nginx
+    sudo systemctl restart nginx #systemd
+    echo "INFO: $is_nginx_started"
+else
+    sudo systemctl restart nginx #systemd
+fi;
+
+
+
+#sudo systemctl restart nginx #systemd
 
 # Not Required on Amzn Linux 2
 # sudo ufw allow 'Nginx Full'
 # sudo ufw delete allow 'Nginx HTTP'
 # sudo ufw status
 # sudo service nginx restart
+
