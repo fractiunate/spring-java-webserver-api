@@ -14,14 +14,14 @@ cd ../
 # Set JAVA 11 for this project
 java_11_path=$(update-alternatives --display java | grep 11 | head -n 1 | xargs)
 
-# is path already set to Java 11?
-if [[ ${java_11_path} == "link currently points to"* ]]; then 
-    java_11_path=$(echo "${java_11_path%%* }")
-    echo "INFO: ${java_11_path}"
-else
-    java_11_path=$(echo "${java_11_path}" | sed -e 's/\s.*$//')
-    sudo alternatives --set java $java_11_path
-fi;
+    # is path already set to Java 11?
+    if [[ ${java_11_path} == "link currently points to"* ]]; then 
+        java_11_path=$(echo "${java_11_path%%* }")
+        echo "INFO: ${java_11_path}"
+    else
+        java_11_path=$(echo "${java_11_path}" | sed -e 's/\s.*$//')
+        sudo alternatives --set java $java_11_path
+    fi;
 
 
 # Build Spring App & run in Background
